@@ -45,3 +45,19 @@ be reset other than by exiting the game and restarting.
 
 Finally, the F2 key is honored, so when you press F2 to hide the UI, all the TotalTime windows and displays are hidden as 
 well.  Pressing F2 does not dismiss the configuration window if it is open, it simply hides it.
+
+=======
+0.2.0 Addition
+A new option is in the Config screen to determine whether time should be kept while 
+the game is paused:
+	"Include time while paused:"
+A new Pause dialog triggered by the Escape key is now available in following scenes:
+			Administration Building
+			Research and Development
+			Astronaut Complex
+			Mission Control
+			VAB & SPH
+
+This new dialog & pause functionality is controlled by a new config option in the Config screen:
+	"Enable Escape key in the Editors and SpaceCenter scenes"
+The Pause dialog is only enabled when this is true.

@@ -19,13 +19,17 @@ namespace TotalTime
 
 		public static bool F2 = false;
 
+		public static bool paused = false;
+		public static bool subscene = false;
+
 		public TotalTime ()
 		{
 		}
 
 		public static void setConfig (ConfigNode config)
 		{
-			GameDatabase.Instance.GetConfigs ("TOTALTIME").First ().config = config;
+			if (config != null)
+				GameDatabase.Instance.GetConfigs ("TOTALTIME").First ().config = config;
 		}
 
 
@@ -34,6 +38,45 @@ namespace TotalTime
 			Log.Debug ("Loading config...");
 			var root = GameDatabase.Instance.GetConfigs ("TOTALTIME").First ().config;
 			config.parseConfigNode (ref root);
+		}
+
+	//	void OnApplicationPause(bool pauseStatus)
+	//	{
+	//		Log.Info ("OnApplicationPause: " + pauseStatus.ToString ());
+	//	}
+		public void OnPause()
+		{
+			paused = true;
+//			if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
+//				if (subscene)
+//					InputLockManager.SetControlLock(ControlTypes.All, "lockID");
+				//else InputLockManager.RemoveControlLock("lockID");
+//			}
+		}
+		public void OnResume()
+		{
+			paused = false;
+			if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
+//				if (subscene)
+//					InputLockManager.SetControlLock(ControlTypes.All, "lockID");
+//				 InputLockManager.RemoveControlLock("lockID");
+			}
+		}
+		private void CallbackLevelWasLoaded (GameScenes scene)
+		{
+			if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
+				paused = false;
+//				InputLockManager.RemoveControlLock("lockID");
+			}
+		}
+
+		private void CallbackAdminFacility()
+		{
+			if (!config.includePauseTime) {
+				subscene = !subscene;
+				if (!subscene)
+					paused = false;
+			}
 		}
 
 		public void Start ()
@@ -53,9 +96,39 @@ namespace TotalTime
 			FileOperations.getData (Configuration.dataLevel.install);
 			FileOperations.getData (Configuration.dataLevel.global);
 
+			GameEvents.onGamePause.Add (OnPause);
+			GameEvents.onGameUnpause.Add (OnResume);
+			GameEvents.onLevelWasLoaded.Add (CallbackLevelWasLoaded);
+
+			GameEvents.onGUIAdministrationFacilitySpawn.Add (CallbackAdminFacility);
+			GameEvents.onGUIAdministrationFacilityDespawn.Add (CallbackAdminFacility);
+			GameEvents.onGUIMissionControlSpawn.Add (CallbackAdminFacility);
+			GameEvents.onGUIMissionControlDespawn.Add (CallbackAdminFacility);
+			GameEvents.onGUIRnDComplexSpawn.Add (CallbackAdminFacility);
+			GameEvents.onGUIRnDComplexDespawn.Add (CallbackAdminFacility);
+			GameEvents.onGUIAstronautComplexSpawn.Add(CallbackAdminFacility);
+			GameEvents.onGUIAstronautComplexDespawn.Add(CallbackAdminFacility);
+
+
 			StartCoroutine (TimeIncrement ());
 		}
 
+		private void OnDestroy()
+		{
+			GameEvents.onGamePause.Remove(OnPause);
+			GameEvents.onGameUnpause.Remove(OnResume); 
+			GameEvents.onGameStateCreated.Remove (CallbackGameStateCreated);
+			GameEvents.onLevelWasLoaded.Remove (CallbackLevelWasLoaded);
+
+			GameEvents.onGUIAdministrationFacilitySpawn.Remove (CallbackAdminFacility);
+			GameEvents.onGUIAdministrationFacilityDespawn.Remove (CallbackAdminFacility);
+			GameEvents.onGUIMissionControlSpawn.Remove (CallbackAdminFacility);
+			GameEvents.onGUIMissionControlDespawn.Remove (CallbackAdminFacility);
+			GameEvents.onGUIRnDComplexSpawn.Remove (CallbackAdminFacility);
+			GameEvents.onGUIRnDComplexDespawn.Remove (CallbackAdminFacility);
+			GameEvents.onGUIAstronautComplexSpawn.Remove(CallbackAdminFacility);
+			GameEvents.onGUIAstronautComplexDespawn.Remove(CallbackAdminFacility);
+		}
 		private void CallbackGameStateCreated (Game g)
 		{
 			Log.Info ("CallbackGameStateCreated: " + g.Title);
@@ -65,6 +138,16 @@ namespace TotalTime
 
 		public void Update ()
 		{
+			if ((Input.GetKeyDown (KeyCode.Escape) && config.enableEscapePause) && (HighLogic.LoadedScene == GameScenes.SPACECENTER || HighLogic.LoadedScene == GameScenes.EDITOR)) {
+					paused = !paused;
+				if (subscene) {
+					if (paused)
+						InputLockManager.SetControlLock (ControlTypes.All, "TotalTime");
+					else
+						InputLockManager.RemoveControlLock ("TotalTime");
+				}
+
+			}
 			if (Input.GetKeyDown (KeyCode.F2))
 				F2 = !F2;
 			if (gui == null) {
@@ -73,6 +156,7 @@ namespace TotalTime
 				gui.SetConfigVisible (false);
 
 			}
+
 			if (HighLogic.LoadedScene != GameScenes.MAINMENU) {
 				if (MainMenuGui.TT_Button == null)
 					GameEvents.onGUIApplicationLauncherReady.Add (gui.OnGUIApplicationLauncherReady);
@@ -104,7 +188,16 @@ namespace TotalTime
 		private System.Collections.IEnumerator TimeIncrement ()
 		{
 			while (true) {
-				if (HighLogic.LoadedScene != GameScenes.MAINMENU) {
+				//if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
+					//if (Planetarium.GetUniversalTime() - lasttime 
+				Log.Info("LoadedScene: " + HighLogic.LoadedScene.ToString());
+					Log.Info("TimeIncrement, time: " + Planetarium.GetUniversalTime().ToString());
+					Log.Info("Planetarium.Pause: " + Planetarium.Pause.ToString());
+				//}
+				if (HighLogic.LoadedScene == GameScenes.SPACECENTER && !Planetarium.Pause && paused)
+					paused = false;
+				if (HighLogic.LoadedScene != GameScenes.MAINMENU && (!paused || config.includePauseTime))
+				{
 					secInGame += config.interval;
 					secInInstall += config.interval;
 					secTotal += config.interval;

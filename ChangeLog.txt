@@ -1,1 +1,10 @@
 ﻿0.1.0	Initial Release
+0.2.0	Added option to keep time while paused or not
+		Deleted some unnecessary code
+		Added code to remove callbacks on destroy
+		Added Pause dialog to following, responds to esc key, only when option to track time while paused is false:
+			Administration Building
+			Research and Development
+			Astronaut Complex
+			Mission Control
+			VAB & SPH

@@ -30,6 +30,8 @@ namespace TotalTime
 		public bool displayOnScreen;
 		public bool displayGameTime, displayInstallTime, displayGlobalTime, displaySessionTime;
 		public int interval;
+		public bool includePauseTime;
+		public bool enableEscapePause;
 
 		public Configuration ()
 		{
@@ -54,6 +56,8 @@ namespace TotalTime
 			displayGlobalTime = false;
 			displaySessionTime = true;
 			displayOnScreen = true;
+			includePauseTime = false;
+			enableEscapePause = true;
 			interval = 5;
 		}
 
@@ -88,6 +92,8 @@ namespace TotalTime
 			top.SetValue ("displayInstallTime", displayInstallTime.ToString (), true);
 			top.SetValue ("displayGlobalTime", displayGlobalTime.ToString (), true);
 			top.SetValue ("displaySessionTime", displaySessionTime.ToString (), true);
+			top.SetValue ("includePauseTime", includePauseTime.ToString (), true);
+			top.SetValue ("enableEscapePause", enableEscapePause.ToString (), true);
 
 			top.SetValue ("displayOnScreen", displayOnScreen.ToString (), true);
 			root.Save (FileOperations.TT_CFG_FILE);
@@ -131,6 +137,18 @@ namespace TotalTime
 				displayGameTime = Boolean.Parse (root.GetValue ("displayGameTime"));
 			} catch {
 			}
+
+			try {
+				includePauseTime = Boolean.Parse (root.GetValue ("includePauseTime"));
+			} catch {
+			}
+				
+			try {
+				enableEscapePause = Boolean.Parse (root.GetValue ("enableEscapePause"));
+			} catch {
+			}
+
+
 			try {
 				displayInstallTime = Boolean.Parse (root.GetValue ("displayInstallTime"));
 			} catch {

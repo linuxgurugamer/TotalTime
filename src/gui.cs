@@ -32,8 +32,13 @@ namespace TotalTime
 		private const int INFOHEIGHT = 50;
 		private Rect infoBounds = new Rect (Screen.width / 4 - INFOWIDTH / 2, Screen.height / 4 - INFOHEIGHT / 2, INFOWIDTH, INFOHEIGHT);
 
+		private  static int PAUSEWIDTH = Screen.width / 2;
+		private  static int PAUSEHEIGHT = Screen.height / 2;
+		private Rect pauseBounds = new Rect (Screen.width / 2 - PAUSEWIDTH / 2, 50, PAUSEWIDTH, PAUSEHEIGHT);
+		GUIStyle largeFont = new GUIStyle ();
+		GUIStyle b = new GUIStyle (); //(GUI.skin.window);
 
-
+		#if false
 		public MainMenuGui ()
 		{
 		}
@@ -41,7 +46,7 @@ namespace TotalTime
 		private void Start ()
 		{
 		}
-
+		#endif
 		public void UpdateToolbarStock ()
 		{
 
@@ -138,10 +143,16 @@ namespace TotalTime
 
 		public void OnGUI ()
 		{
+			if ((TotalTime.subscene || HighLogic.LoadedScene == GameScenes.EDITOR) && TotalTime.paused) {
+				
+				b.normal.background = MakeTex (2, 2, Color.gray);
+				this.pauseBounds = GUILayout.Window (GetInstanceID () + 2, pauseBounds, PauseWindow, "", b);
+			}
+
 			if (!TotalTime.F2) {
 				if (this.configVisible) {
 					try {
-						this.configBounds = GUILayout.Window (this.GetInstanceID (), this.configBounds, this.ConfigWindow, TotalTime.TITLE, HighLogic.Skin.window);
+						this.configBounds = GUILayout.Window (GetInstanceID (), configBounds, ConfigWindow, TotalTime.TITLE, HighLogic.Skin.window);
 				
 					} catch (Exception) {
 					}
@@ -149,11 +160,59 @@ namespace TotalTime
 
 				if (this.infoDisplayVisible) {
 					try {
-						this.infoBounds = GUILayout.Window (this.GetInstanceID () + 1, this.infoBounds, this.InfoWindow, TotalTime.TITLE, HighLogic.Skin.window);
+						this.infoBounds = GUILayout.Window (GetInstanceID () + 1, infoBounds, InfoWindow, TotalTime.TITLE, HighLogic.Skin.window);
 					} catch (Exception) {
 					}
 				}
 			}
+		}
+
+
+		private Texture2D MakeTex (int width, int height, Color col)
+		{
+			Color[] pix = new Color[width * height];
+
+			for (int i = 0; i < pix.Length; i++)
+				pix [i] = col;
+
+			Texture2D result = new Texture2D (width, height);
+			result.SetPixels (pix);
+			result.Apply ();
+
+			return result;
+		}
+
+		private void PauseWindow (int id)
+		{
+			int h = 150;
+
+			largeFont.fontSize = 22;
+
+			GUI.enabled = true;
+
+			GUILayout.BeginVertical ();
+			GUILayout.BeginHorizontal ();
+			GUILayout.FlexibleSpace ();
+			GUILayout.Label ("Game Paused", largeFont, GUILayout.Height (h));
+			GUILayout.FlexibleSpace ();
+			GUILayout.EndHorizontal ();
+			GUILayout.BeginHorizontal ();
+			GUILayout.FlexibleSpace ();
+			GUILayout.Label ("Press Escape to continue, or click the button below", largeFont, GUILayout.Height (h));
+			GUILayout.FlexibleSpace ();
+			GUILayout.EndHorizontal ();
+			GUILayout.BeginHorizontal ();
+			GUILayout.FlexibleSpace ();
+			if (GUILayout.Button ("Resume Game", GUILayout.Height (h), GUILayout.Width (300))) {
+				TotalTime.paused = false;
+				InputLockManager.RemoveControlLock ("TotalTime");
+			}
+			GUILayout.FlexibleSpace ();
+			GUILayout.EndHorizontal ();
+
+			GUILayout.EndVertical ();
+
+
 		}
 
 		private void InfoWindow (int id)
@@ -201,7 +260,7 @@ namespace TotalTime
 
 		string strtotalTimeDataPath, strinterval;
 		bool boollogGameTime, boollogInstallTime, boollogGlobalTime;
-		bool booldisplayGameTime, booldisplayInstallTime, booldisplayGlobalTime, booldisplayOnScreen, booldisplaySessionTime;
+		bool booldisplayGameTime, booldisplayInstallTime, booldisplayGlobalTime, booldisplayOnScreen, booldisplaySessionTime, boolincludePauseTime, boolenableEscapePause;
 
 		void setGuiVars (ref Configuration config)
 		{
@@ -216,6 +275,8 @@ namespace TotalTime
 			booldisplayGlobalTime = config.displayGlobalTime;
 			booldisplayOnScreen = config.displayOnScreen;
 			booldisplaySessionTime = config.displaySessionTime;
+			boolincludePauseTime = config.includePauseTime;
+			boolenableEscapePause = config.enableEscapePause;
 		}
 
 		private void ConfigWindow (int id)
@@ -265,6 +326,20 @@ namespace TotalTime
 			GUILayout.FlexibleSpace ();
 			strinterval = GUILayout.TextField (strinterval, GUILayout.MinWidth (30F), GUILayout.MaxWidth (30F));
 			GUILayout.EndHorizontal ();
+
+
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label ("Include time while paused:");
+			GUILayout.FlexibleSpace ();
+			boolincludePauseTime = GUILayout.Toggle (boolincludePauseTime, "");
+			GUILayout.EndHorizontal ();
+
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label ("Enable Escape key in the Editors and SpaceCenter scenes:");
+			GUILayout.FlexibleSpace ();
+			boolenableEscapePause = GUILayout.Toggle (boolenableEscapePause, "");
+			GUILayout.EndHorizontal ();
+
 
 			GUILayout.BeginHorizontal ();
 			GUILayout.Label ("Display on screen:");
@@ -349,6 +424,9 @@ namespace TotalTime
 				TotalTime.config.displayGlobalTime = booldisplayGlobalTime;
 				TotalTime.config.displayOnScreen = booldisplayOnScreen;
 				TotalTime.config.displaySessionTime = booldisplaySessionTime;
+				TotalTime.config.includePauseTime = boolincludePauseTime;
+				TotalTime.config.enableEscapePause = boolenableEscapePause;
+
 				try {
 					TotalTime.config.interval = Convert.ToUInt16 (strinterval);
 				} catch (Exception) {

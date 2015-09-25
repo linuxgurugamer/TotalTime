@@ -21,7 +21,7 @@
     <CustomCommands>
       <CustomCommands>
         <Command type="AfterBuild" command="xcopy ${TargetFile}  R:\KSP_1.0.4_Dev\GameData\TotalTime\Plugins\ /Y" externalConsole="True" />
-        <Command type="AfterBuild" command="xcopy ${ProjectDir}\src\Textures\*  R:\KSP_1.0.4_Dev\GameData\TotalTime\Textures /Y" externalConsole="True" pauseExternalConsole="True" />
+        <Command type="AfterBuild" command="xcopy ${ProjectDir}\src\Textures\*  R:\KSP_1.0.4_Dev\GameData\TotalTime\Textures /Y" externalConsole="True" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
