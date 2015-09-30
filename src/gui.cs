@@ -143,7 +143,7 @@ namespace TotalTime
 
 		public void OnGUI ()
 		{
-			if ((TotalTime.subscene || HighLogic.LoadedScene == GameScenes.EDITOR) && TotalTime.paused) {
+			if ((TotalTime.subscene || HighLogic.LoadedScene == GameScenes.EDITOR) && TotalTime.paused && TotalTime.lastScene != GameScenes.FLIGHT) {
 				
 				b.normal.background = MakeTex (2, 2, Color.gray);
 				this.pauseBounds = GUILayout.Window (GetInstanceID () + 2, pauseBounds, PauseWindow, "", b);

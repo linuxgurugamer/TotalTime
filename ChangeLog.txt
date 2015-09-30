@@ -8,3 +8,5 @@
 			Astronaut Complex
 			Mission Control
 			VAB & SPH
+
+0.3.0	Fix bug where reverting flight to editor would enter editor in paused mode

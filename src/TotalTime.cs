@@ -21,6 +21,7 @@ namespace TotalTime
 
 		public static bool paused = false;
 		public static bool subscene = false;
+		public static GameScenes lastScene = GameScenes.CREDITS;
 
 		public TotalTime ()
 		{
@@ -56,18 +57,19 @@ namespace TotalTime
 		public void OnResume()
 		{
 			paused = false;
-			if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
+//			if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
 //				if (subscene)
 //					InputLockManager.SetControlLock(ControlTypes.All, "lockID");
 //				 InputLockManager.RemoveControlLock("lockID");
-			}
+//			}
 		}
 		private void CallbackLevelWasLoaded (GameScenes scene)
 		{
-			if (HighLogic.LoadedScene == GameScenes.SPACECENTER) {
+			if (HighLogic.LoadedScene == GameScenes.SPACECENTER || HighLogic.LoadedScene == GameScenes.EDITOR) {
 				paused = false;
 //				InputLockManager.RemoveControlLock("lockID");
 			}
+			lastScene = scene;
 		}
 
 		private void CallbackAdminFacility()
