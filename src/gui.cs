@@ -416,12 +416,12 @@ namespace TotalTime
 				if (TotalTime.config.totalTimeDataPath == "")
 					booldisplayGlobalTime = false;
 				TotalTime.config.logGameTime = boollogGameTime;
-				if (TotalTime.config.logInstallTime == false and boollogInstallTime)
+				if (TotalTime.config.logInstallTime == false && boollogInstallTime)
 				{
 					FileOperations.getData (Configuration.dataLevel.install);
 				}
 				TotalTime.config.logInstallTime = boollogInstallTime;
-				if (TotalTime.config.logGlobalTime == false & boollogGameTime)
+				if (TotalTime.config.logGlobalTime == false && boollogGameTime)
 				{
 					FileOperations.getData (Configuration.dataLevel.global);
 				}
