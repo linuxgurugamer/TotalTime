@@ -19,13 +19,13 @@ namespace TotalTime
 		public static String TT_NODENAME = "TotalTime";
 		public static String TT_CFG_FILE = FileOperations.TT_BASE_FOLDER + "TotalTime.cfg";
 
+		public static bool dataRead = false;
+		//		private static ConfigNode configFile = null;
+		//		private static ConfigNode configFileNode = null;
+		//		public Configuration config;
 
-//		private static ConfigNode configFile = null;
-//		private static ConfigNode configFileNode = null;
-//		public Configuration config;
 
-
-#if (!_UNLIMITED_FILE_ACCESS)
+		#if (!_UNLIMITED_FILE_ACCESS)
 		public static bool InsideApplicationRootPath(String path)
 		{
 		if (path == null) return false;
@@ -41,7 +41,7 @@ namespace TotalTime
 		}
 #endif
 
-		public static bool ValidPathForWriteOperation(String path)
+		public static bool ValidPathForWriteOperation (String path)
 		{
 #if (_UNLIMITED_FILE_ACCESS)
 			return true;
@@ -51,14 +51,14 @@ namespace TotalTime
 #endif
 		}
 
-		public static String GetHomeDir()
+		public static String GetHomeDir ()
 		{
 			if (Application.platform == RuntimePlatform.WindowsPlayer)
-				return Environment.GetEnvironmentVariable("USERPROFILE");
-			return Environment.GetEnvironmentVariable("HOME");
+				return Environment.GetEnvironmentVariable ("USERPROFILE");
+			return Environment.GetEnvironmentVariable ("HOME");
 		}
 
-		private static string getDataFile(Configuration.dataLevel type)
+		private static string getDataFile (Configuration.dataLevel type)
 		{
 			switch (type) {
 			case Configuration.dataLevel.game:
@@ -67,22 +67,22 @@ namespace TotalTime
 					return "";
 				return(KSPUtil.ApplicationRootPath + "saves/" + HighLogic.SaveFolder + "/" + TT_DATAFILE);
 
-				case Configuration.dataLevel.install:
-					return(CONFIG_BASE_FOLDER + TT_DATAFILE);
+			case Configuration.dataLevel.install:
+				return(CONFIG_BASE_FOLDER + TT_DATAFILE);
 
 			case Configuration.dataLevel.global:
 				if (TotalTime.config.totalTimeDataPath == "")
 					return "";
-					return(TotalTime.config.totalTimeDataPath + "/" + FileOperations.TT_DATAFILE);
+				return(TotalTime.config.totalTimeDataPath + "/" + FileOperations.TT_DATAFILE);
 			}
 			return "";
 		}
 
 
-		public static  bool getData(Configuration.dataLevel type)
+		public static  bool getData (Configuration.dataLevel type)
 		{
 			Log.Info ("getData dataLevel: " + type.ToString ());
-			string path = getDataFile(type);
+			string path = getDataFile (type);
 			Log.Info ("getData path: " + path);
 			if (path == "" || !System.IO.File.Exists (path)) {
 				switch (type) {
@@ -110,26 +110,30 @@ namespace TotalTime
 				case Configuration.dataLevel.game:
 					TotalTime.secInGame = int.Parse (SafeLoad (top.GetValue ("secInGame"), TotalTime.secInGame.ToString ()));
 					Log.Info ("getData: dataLevel.game: " + TotalTime.secInGame);
+					TotalTime.strSecInGameTime = TotalTime.formatTime (TotalTime.secInGame);
+
 					break;
 
 				case Configuration.dataLevel.install:
 					TotalTime.secInInstall = int.Parse (SafeLoad (top.GetValue ("secInInstall"), TotalTime.secInInstall.ToString ()));
 					Log.Info ("getData: dataLevel.install: " + TotalTime.secInInstall);
+					TotalTime.strSecInInstallTime = TotalTime.formatTime (TotalTime.secInInstall);
 					break;
 
 				case Configuration.dataLevel.global:
 					TotalTime.secTotal = int.Parse (SafeLoad (top.GetValue ("secTotal"), TotalTime.secTotal.ToString ()));
 					Log.Info ("getData: dataLevel.global: " + TotalTime.secTotal);
+					TotalTime.strSecTotalTime = TotalTime.formatTime (TotalTime.secTotal);
 					break;
 				}
 			}
 			return false;
 		}
 
-		public static bool saveData(Configuration.dataLevel type)
+		public static bool saveData (Configuration.dataLevel type)
 		{
 			Log.Info ("saveData dataLevel: " + type.ToString ());
-			string path = getDataFile(type);
+			string path = getDataFile (type);
 			Log.Info ("saveData: " + path);
 			if (path == "")
 				return false;
@@ -159,7 +163,7 @@ namespace TotalTime
 		//
 		// The following functions are used when loading data from the config file
 		// They make sure that if a value is missing, that the old value will be used.
-		// 
+		//
 		static string SafeLoad (string value, string oldvalue)
 		{
 			if (value == null)

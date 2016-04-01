@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-
+using KSP.UI.Screens;
 
 namespace TotalTime
 {
@@ -29,16 +29,20 @@ namespace TotalTime
 
 		public static void setConfig (ConfigNode config)
 		{
+			Log.Info ("setConfig");
 			if (config != null)
-				GameDatabase.Instance.GetConfigs ("TOTALTIME").First ().config = config;
+				GameDatabase.Instance.GetConfigs ("TotalTime").First ().config = config;
+			Log.Info ("setConfig done");
 		}
 
 
 		private void readConfig ()
 		{
 			Log.Debug ("Loading config...");
-			var root = GameDatabase.Instance.GetConfigs ("TOTALTIME").First ().config;
+			var root = GameDatabase.Instance.GetConfigs ("TotalTime").First ().config;
 			config.parseConfigNode (ref root);
+//			MainMenuGui.infoDisplayVisible = TotalTime.config.displayInWindow;
+
 		}
 
 	//	void OnApplicationPause(bool pauseStatus)
@@ -95,8 +99,10 @@ namespace TotalTime
 			// Add a callback to load the data for the game after it is loaded
 			GameEvents.onGameStateCreated.Add (CallbackGameStateCreated);
 
-			FileOperations.getData (Configuration.dataLevel.install);
-			FileOperations.getData (Configuration.dataLevel.global);
+			if (config.logInstallTime)
+				FileOperations.getData (Configuration.dataLevel.install);
+			if (config.logGameTime)
+				FileOperations.getData (Configuration.dataLevel.global);
 
 			GameEvents.onGamePause.Add (OnPause);
 			GameEvents.onGameUnpause.Add (OnResume);
@@ -167,13 +173,13 @@ namespace TotalTime
 		}
 
 
-		public static string strSecInGameTime, strSecInInstallTime, strSecTotalTime, strSessionTime;
+		public static string strSecInGameTime, strSecInInstallTime, strSecTotalTime, strSessionTime = formatTime(sessionTime);
 		public const string inGameTitle = "Current save:";
 		public const string inInstallTitle = "Install:";
 		public const string totalTitle = "KSP Total:";
 		public const string sessionTitle = "Session time:";
 
-		private string formatTime (int t)
+		public static string formatTime (int t)
 		{
 			int hours, min, msec;
 	
@@ -210,9 +216,12 @@ namespace TotalTime
 					strSecTotalTime = formatTime (secTotal);
 					strSessionTime = formatTime (sessionTime);
 
-					FileOperations.saveData (Configuration.dataLevel.game);
-					FileOperations.saveData (Configuration.dataLevel.install);
-					FileOperations.saveData (Configuration.dataLevel.global);
+					if (config.logGameTime)
+						FileOperations.saveData (Configuration.dataLevel.game);
+					if (config.logInstallTime)
+						FileOperations.saveData (Configuration.dataLevel.install);
+					if (config.logGlobalTime)
+						FileOperations.saveData (Configuration.dataLevel.global);
 				}
 				yield return new WaitForSeconds ((float)config.interval);
 				

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-
+using KSP.UI.Screens;
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
@@ -20,7 +20,7 @@ namespace TotalTime
 
 		private bool cfgWinData = false;
 		private /* volatile*/ bool configVisible = false;
-		private bool infoDisplayVisible = false;
+//		public  static bool infoDisplayVisible = false;
 		//private bool defaultsLoaded = false;
 		private static bool appLaucherHidden = true;
 
@@ -76,17 +76,17 @@ namespace TotalTime
 			configVisible = visible;
 		}
 
-		public void SetInfoDisplayVisible (bool visible)
-		{
-			infoDisplayVisible = visible;
-		}
+//		public void SetInfoDisplayVisible (bool visible)
+//		{
+//			infoDisplayVisible = visible;
+//		}
 
 		public void GUIToggleToolbar ()
 		{
 			//GUIToggle (true);
-
+			Log.Info("GUIToggleToolbar");
 			//stockToolBarcreated = true;
-			if (Input.GetMouseButtonUp (1)) {
+			if (!Input.GetMouseButtonUp (1)) {
 				//onRightButtonStockClick ();
 				configDisplayActive = !configDisplayActive;
 				if (configDisplayActive) {
@@ -95,10 +95,12 @@ namespace TotalTime
 				} else {
 
 					SetConfigVisible (false);
-
+					Log.Info("displayInWindow 1: " + TotalTime.config.displayInWindow.ToString() );
+//					SetInfoDisplayVisible(TotalTime.config.displayInWindow);
 					//UpdateToolbarStock ();
 				}
 			}
+			#if false
 			if (!Input.GetMouseButtonUp (1)) {
 				//onLeftButtonClick();
 				infoDisplayActive = !infoDisplayActive;
@@ -110,6 +112,13 @@ namespace TotalTime
 					//UpdateToolbarStock ();
 				}
 			}
+			#else
+//			if (!configVisible)
+//			{
+//				SetInfoDisplayVisible(TotalTime.config.displayInWindow);
+//				Log.Info("displayInWindow: " + TotalTime.config.displayInWindow.ToString() );
+//			}
+			#endif
 		}
 
 		public void GUIToggleConfig ()
@@ -120,7 +129,7 @@ namespace TotalTime
 				SetConfigVisible (true);
 				cfgWinData = false;
 			} else {
-
+//				SetInfoDisplayVisible(TotalTime.config.displayInWindow);
 				SetConfigVisible (false);
 			}
 
@@ -158,7 +167,11 @@ namespace TotalTime
 					}
 				}
 
-				if (this.infoDisplayVisible) {
+				if (TotalTime.config.displayInWindow && (
+					(TotalTime.config.displayGameTime && TotalTime.config.logGameTime) ||
+					(TotalTime.config.displayInstallTime && TotalTime.config.logInstallTime) ||
+					(TotalTime.config.displayGlobalTime && TotalTime.config.logGlobalTime) ||
+					(TotalTime.config.displaySessionTime) )) {
 					try {
 						this.infoBounds = GUILayout.Window (GetInstanceID () + 1, infoBounds, InfoWindow, TotalTime.TITLE, HighLogic.Skin.window);
 					} catch (Exception) {
@@ -260,7 +273,7 @@ namespace TotalTime
 
 		string strtotalTimeDataPath, strinterval;
 		bool boollogGameTime, boollogInstallTime, boollogGlobalTime;
-		bool booldisplayGameTime, booldisplayInstallTime, booldisplayGlobalTime, booldisplayOnScreen, booldisplaySessionTime, boolincludePauseTime, boolenableEscapePause;
+		bool booldisplayGameTime, booldisplayInstallTime, booldisplayGlobalTime, booldisplayOnScreen, booldisplayInWindow, booldisplaySessionTime, boolincludePauseTime, boolenableEscapePause;
 
 		void setGuiVars (ref Configuration config)
 		{
@@ -274,6 +287,7 @@ namespace TotalTime
 			booldisplayInstallTime = config.displayInstallTime;
 			booldisplayGlobalTime = config.displayGlobalTime;
 			booldisplayOnScreen = config.displayOnScreen;
+			booldisplayInWindow = config.displayInWindow;
 			booldisplaySessionTime = config.displaySessionTime;
 			boolincludePauseTime = config.includePauseTime;
 			boolenableEscapePause = config.enableEscapePause;
@@ -345,6 +359,13 @@ namespace TotalTime
 			GUILayout.Label ("Display on screen:");
 			GUILayout.FlexibleSpace ();
 			booldisplayOnScreen = GUILayout.Toggle (booldisplayOnScreen, "");
+			GUILayout.EndHorizontal ();
+
+
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label ("Display in window:");
+			GUILayout.FlexibleSpace ();
+			booldisplayInWindow = GUILayout.Toggle (booldisplayInWindow, "");
 			GUILayout.EndHorizontal ();
 
 			GUILayout.BeginHorizontal ();
@@ -431,6 +452,9 @@ namespace TotalTime
 				TotalTime.config.displayInstallTime = booldisplayInstallTime;
 				TotalTime.config.displayGlobalTime = booldisplayGlobalTime;
 				TotalTime.config.displayOnScreen = booldisplayOnScreen;
+
+				TotalTime.config.displayInWindow = booldisplayInWindow;
+
 				TotalTime.config.displaySessionTime = booldisplaySessionTime;
 				TotalTime.config.includePauseTime = boolincludePauseTime;
 				TotalTime.config.enableEscapePause = boolenableEscapePause;
@@ -457,6 +481,11 @@ namespace TotalTime
 			if (GUILayout.Button ("Set global file counter file in home directory", GUILayout.Width (300.0f))) {
 				strtotalTimeDataPath = FileOperations.GetHomeDir ();
 				strtotalTimeDataPath = strtotalTimeDataPath.Replace ("\\", "/");
+
+				int i = TotalTime.secTotal;
+				FileOperations.getData (Configuration.dataLevel.global);
+				TotalTime.secTotal += i;
+
 			}
 			GUILayout.FlexibleSpace ();
 			GUILayout.EndHorizontal ();

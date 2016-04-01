@@ -32,6 +32,7 @@ namespace TotalTime
 		public int interval;
 		public bool includePauseTime;
 		public bool enableEscapePause;
+		public bool displayInWindow;
 
 		public Configuration ()
 		{
@@ -56,6 +57,7 @@ namespace TotalTime
 			displayGlobalTime = false;
 			displaySessionTime = true;
 			displayOnScreen = true;
+			displayInWindow = false;
 			includePauseTime = false;
 			enableEscapePause = true;
 			interval = 5;
@@ -96,6 +98,8 @@ namespace TotalTime
 			top.SetValue ("enableEscapePause", enableEscapePause.ToString (), true);
 
 			top.SetValue ("displayOnScreen", displayOnScreen.ToString (), true);
+			top.SetValue ("displayInWindow", displayInWindow.ToString (), true);
+
 			root.Save (FileOperations.TT_CFG_FILE);
 			TotalTime.setConfig (root);
 		}
@@ -127,9 +131,13 @@ namespace TotalTime
 			if (interval <= 0)
 				interval = 2;
 			
-
 			try {
 				displayOnScreen = Boolean.Parse (root.GetValue ("displayOnScreen"));
+			} catch {
+			}
+
+			try {
+				displayInWindow = Boolean.Parse (root.GetValue ("displayInWindow"));
 			} catch {
 			}
 

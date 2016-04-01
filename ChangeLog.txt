@@ -11,3 +11,7 @@
 
 0.3.0	Fix bug where reverting flight to editor would enter editor in paused mode
 0.4.0	Fix bug where adding TotalTime to new install would reset global countr
+
+0.6.0	Updated for 1.1
+		Fixed bug where initializing in new install with the global directory would overwrite old file
+		Modified toolbar button to temporarily bypass the non-functioning right-click on toolbar button
