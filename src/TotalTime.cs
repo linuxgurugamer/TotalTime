@@ -5,7 +5,7 @@ using KSP.UI.Screens;
 
 namespace TotalTime
 {
-	[KSPAddon (KSPAddon.Startup.MainMenu, true)]
+	[KSPAddon (KSPAddon.Startup.SpaceCentre, true)]
 	public class TotalTime : MonoBehaviour
 	{
 		public const String TITLE = "Total Time";

@@ -15,3 +15,5 @@
 0.6.0	Updated for 1.1
 		Fixed bug where initializing in new install with the global directory would overwrite old file
 		Modified toolbar button to temporarily bypass the non-functioning right-click on toolbar button
+0.6.1
+		Fixed harmless exception at load

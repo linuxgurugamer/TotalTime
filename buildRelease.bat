@@ -1,4 +1,4 @@
-﻿
+﻿rem garbage line
 @echo off
 set DEFHOMEDRIVE=d:
 set DEFHOMEDIR=%DEFHOMEDRIVE%%HOMEPATH%
