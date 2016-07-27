@@ -17,3 +17,9 @@
 		Modified toolbar button to temporarily bypass the non-functioning right-click on toolbar button
 0.6.1
 		Fixed harmless exception at load
+0.6.2
+		Disabled taking any action in the non-timeusing scenes:
+			Administration Facility
+			Mission Control
+			RnD Complex
+			Astronaut Complex

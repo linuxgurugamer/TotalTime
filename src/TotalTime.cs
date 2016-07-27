@@ -78,11 +78,13 @@ namespace TotalTime
 
 		private void CallbackAdminFacility()
 		{
-			if (!config.includePauseTime) {
+#if false
+            if (!config.includePauseTime) {
 				subscene = !subscene;
 				if (!subscene)
 					paused = false;
 			}
+#endif
 		}
 
 		public void Start ()
