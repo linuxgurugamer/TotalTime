@@ -23,3 +23,7 @@
 			Mission Control
 			RnD Complex
 			Astronaut Complex
+
+0.6.3
+		Moved TotalTime.cfg into PluginData directory
+		Compiled for 1.2

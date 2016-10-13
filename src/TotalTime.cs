@@ -30,8 +30,15 @@ namespace TotalTime
 		public static void setConfig (ConfigNode config)
 		{
 			Log.Info ("setConfig");
-			if (config != null)
-				GameDatabase.Instance.GetConfigs ("TotalTime").First ().config = config;
+            if (config != null)
+            {
+                if (GameDatabase.Instance.GetConfigs("TotalTime") != null)
+                {
+                    Log.Info("Totaltime config found");
+                    if (GameDatabase.Instance.GetConfigs("TotalTime").Length > 0)
+                        GameDatabase.Instance.GetConfigs("TotalTime").First().config = config;
+                }
+            }
 			Log.Info ("setConfig done");
 		}
 
@@ -101,7 +108,9 @@ namespace TotalTime
 			// Add a callback to load the data for the game after it is loaded
 			GameEvents.onGameStateCreated.Add (CallbackGameStateCreated);
 
-			if (config.logInstallTime)
+            FileOperations.MoveCfgToDataDir();
+
+            if (config.logInstallTime)
 				FileOperations.getData (Configuration.dataLevel.install);
 			if (config.logGameTime)
 				FileOperations.getData (Configuration.dataLevel.global);

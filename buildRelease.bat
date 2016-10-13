@@ -46,6 +46,11 @@ set d=%HOMEDIR%\install\Gamedata\TotalTime\Textures
 if exist %d% goto five
 mkdir %d%
 :five
+set d=%HOMEDIR%\install\Gamedata\TotalTime\PluginData
+if exist %d% goto six
+mkdir %d%
+:six
+
 rem del %HOMEDIR%\install\Gamedata\TotalTime\Textures\*.*
 
 

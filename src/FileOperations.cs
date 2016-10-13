@@ -3,6 +3,7 @@
 #define _UNLIMITED_FILE_ACCESS
 
 using System;
+using System.IO;
 using UnityEngine;
 
 
@@ -17,15 +18,16 @@ namespace TotalTime
 		private  string SAVE_PATH = ROOT_PATH + "saves/" + HighLogic.SaveFolder;
 		public static string TT_DATAFILE = "totaltime.dat";
 		public static String TT_NODENAME = "TotalTime";
-		public static String TT_CFG_FILE = FileOperations.TT_BASE_FOLDER + "TotalTime.cfg";
+        public static String TT_CFG_FILE = FileOperations.TT_BASE_FOLDER + "PluginData/TotalTime.cfg";
+        public static String TT_OLD_CFG_FILE = FileOperations.TT_BASE_FOLDER + "TotalTime.cfg";
 
-		public static bool dataRead = false;
-		//		private static ConfigNode configFile = null;
-		//		private static ConfigNode configFileNode = null;
-		//		public Configuration config;
+        public static bool dataRead = false;
+        //		private static ConfigNode configFile = null;
+        //		private static ConfigNode configFileNode = null;
+        //		public Configuration config;
 
 
-		#if (!_UNLIMITED_FILE_ACCESS)
+#if (!_UNLIMITED_FILE_ACCESS)
 		public static bool InsideApplicationRootPath(String path)
 		{
 		if (path == null) return false;
@@ -41,7 +43,27 @@ namespace TotalTime
 		}
 #endif
 
-		public static bool ValidPathForWriteOperation (String path)
+
+        public static void MoveCfgToDataDir()
+        {
+            if (File.Exists(TT_OLD_CFG_FILE))
+            {
+                if (!File.Exists(TT_CFG_FILE))
+                {
+                    try
+                    {
+                        File.Copy(TT_OLD_CFG_FILE, TT_CFG_FILE);
+                        File.Delete(TT_OLD_CFG_FILE);
+                    }
+                    catch (Exception e)
+                    { }
+                }
+            }
+            else
+                File.Delete(TT_OLD_CFG_FILE);
+        }
+
+        public static bool ValidPathForWriteOperation (String path)
 		{
 #if (_UNLIMITED_FILE_ACCESS)
 			return true;
@@ -158,7 +180,6 @@ namespace TotalTime
 			root.Save (path);
 			return false;
 		}
-
 
 		//
 		// The following functions are used when loading data from the config file

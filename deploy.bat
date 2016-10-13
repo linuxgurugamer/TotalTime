@@ -1,5 +1,5 @@
 ﻿rem first line garbage for some reason
-set H=R:\KSP_1.1.3_dev
+set H=R:\KSP_1.1.4_dev
 echo %H%
 
 set d=%H%
@@ -22,6 +22,11 @@ set d=%H%\Gamedata\TotalTime\Textures
 if exist %d% goto five
 mkdir %d%
 :five
+
+set d=%H%\Gamedata\TotalTime\PluginData
+if exist %d% goto six
+mkdir %d%
+:six
 
 
 xcopy src\Textures\*.png   %H%\GameData\TotalTime\Textures /Y
