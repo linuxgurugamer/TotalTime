@@ -56,7 +56,8 @@ rem del %HOMEDIR%\install\Gamedata\TotalTime\Textures\*.*
 
 xcopy src\Textures\*.png   %HOMEDIR%\install\GameData\TotalTime\Textures /Y
 copy bin\Release\TotalTime.dll %HOMEDIR%\install\Gamedata\TotalTime\Plugins
-copy  totaltime.version %HOMEDIR%\install\Gamedata\TotalTime
+copy  /Y totaltime.version %HOMEDIR%\install\Gamedata\TotalTime
+copy /Y ..\MiniAVC.dll %HOMEDIR%\install\Gamedata\TotalTime
 copy README.md %HOMEDIR%\install\Gamedata\TotalTime
 copy ChangeLog.txt %HOMEDIR%\install\Gamedata\TotalTime
 pause
