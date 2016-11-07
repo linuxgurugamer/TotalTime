@@ -27,3 +27,8 @@
 0.6.3
 		Moved TotalTime.cfg into PluginData directory
 		Compiled for 1.2
+
+0.6.4
+
+0.6.5
+		Added prebuild code to get correct file version in to the assembly
