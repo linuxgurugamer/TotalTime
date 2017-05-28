@@ -1,0 +1,37 @@
+﻿0.1.0	Initial Release
+0.2.0	Added option to keep time while paused or not
+		Deleted some unnecessary code
+		Added code to remove callbacks on destroy
+		Added Pause dialog to following, responds to esc key, only when option to track time while paused is false:
+			Administration Building
+			Research and Development
+			Astronaut Complex
+			Mission Control
+			VAB & SPH
+
+0.3.0	Fix bug where reverting flight to editor would enter editor in paused mode
+0.4.0	Fix bug where adding TotalTime to new install would reset global countr
+
+0.6.0	Updated for 1.1
+		Fixed bug where initializing in new install with the global directory would overwrite old file
+		Modified toolbar button to temporarily bypass the non-functioning right-click on toolbar button
+0.6.1
+		Fixed harmless exception at load
+0.6.2
+		Disabled taking any action in the non-timeusing scenes:
+			Administration Facility
+			Mission Control
+			RnD Complex
+			Astronaut Complex
+
+0.6.3
+		Moved TotalTime.cfg into PluginData directory
+		Compiled for 1.2
+
+0.6.4
+
+0.6.5
+		Added prebuild code to get correct file version in to the assembly
+
+0.6.*
+	Replaced depreciated call to GameEvents.onLevelWasLoaded with Unity SceneManagment calls

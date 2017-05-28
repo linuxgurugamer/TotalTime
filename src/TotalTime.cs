@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using KSP.UI.Screens;
 
 namespace TotalTime
@@ -74,13 +75,13 @@ namespace TotalTime
 //				 InputLockManager.RemoveControlLock("lockID");
 //			}
 		}
-		private void CallbackLevelWasLoaded (GameScenes scene)
-		{
+		private void CallbackLevelWasLoaded(Scene scene, LoadSceneMode mode)
+        {
 			if (HighLogic.LoadedScene == GameScenes.SPACECENTER || HighLogic.LoadedScene == GameScenes.EDITOR) {
 				paused = false;
 //				InputLockManager.RemoveControlLock("lockID");
 			}
-			lastScene = scene;
+			lastScene = HighLogic.LoadedScene;
 		}
 
 		private void CallbackAdminFacility()
@@ -117,7 +118,7 @@ namespace TotalTime
 
 			GameEvents.onGamePause.Add (OnPause);
 			GameEvents.onGameUnpause.Add (OnResume);
-			GameEvents.onLevelWasLoaded.Add (CallbackLevelWasLoaded);
+			//GameEvents.onLevelWasLoaded.Add (CallbackLevelWasLoaded);
 
 			GameEvents.onGUIAdministrationFacilitySpawn.Add (CallbackAdminFacility);
 			GameEvents.onGUIAdministrationFacilityDespawn.Add (CallbackAdminFacility);
@@ -137,7 +138,7 @@ namespace TotalTime
 			GameEvents.onGamePause.Remove(OnPause);
 			GameEvents.onGameUnpause.Remove(OnResume); 
 			GameEvents.onGameStateCreated.Remove (CallbackGameStateCreated);
-			GameEvents.onLevelWasLoaded.Remove (CallbackLevelWasLoaded);
+			//GameEvents.onLevelWasLoaded.Remove (CallbackLevelWasLoaded);
 
 			GameEvents.onGUIAdministrationFacilitySpawn.Remove (CallbackAdminFacility);
 			GameEvents.onGUIAdministrationFacilityDespawn.Remove (CallbackAdminFacility);
@@ -148,7 +149,19 @@ namespace TotalTime
 			GameEvents.onGUIAstronautComplexSpawn.Remove(CallbackAdminFacility);
 			GameEvents.onGUIAstronautComplexDespawn.Remove(CallbackAdminFacility);
 		}
-		private void CallbackGameStateCreated (Game g)
+
+        void OnEnable()
+        {
+            //Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
+            SceneManager.sceneLoaded += CallbackLevelWasLoaded;
+        }
+
+        void OnDisable()
+        {
+            //Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
+            SceneManager.sceneLoaded -= CallbackLevelWasLoaded;
+        }
+        private void CallbackGameStateCreated (Game g)
 		{
 			Log.Info ("CallbackGameStateCreated: " + g.Title);
 			strSecInGameTime = "";

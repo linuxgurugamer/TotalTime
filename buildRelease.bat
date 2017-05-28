@@ -1,69 +1,56 @@
 ﻿rem garbage line
 @echo off
-set DEFHOMEDRIVE=d:
-set DEFHOMEDIR=%DEFHOMEDRIVE%%HOMEPATH%
-set HOMEDIR=
-set HOMEDRIVE=%CD:~0,2%
 
 set RELEASEDIR=d:\Users\jbb\release
 set ZIP="c:\Program Files\7-zip\7z.exe"
-echo Default homedir: %DEFHOMEDIR%
 
-set /p HOMEDIR= "Enter Home directory, or <CR> for default: "
+set VERSIONFILE=totaltime.version
+rem The following requires the JQ program, available here: https://stedolan.github.io/jq/download/
+c:\local\jq-win64  ".VERSION.MAJOR" %VERSIONFILE% >tmpfile
+set /P major=<tmpfile
 
-if "%HOMEDIR%" == "" (
-set HOMEDIR=%DEFHOMEDIR%
-)
-echo %HOMEDIR%
+c:\local\jq-win64  ".VERSION.MINOR"  %VERSIONFILE% >tmpfile
+set /P minor=<tmpfile
 
-SET _test=%HOMEDIR:~1,1%
-if "%_test%" == ":" (
-set HOMEDRIVE=%HOMEDIR:~0,2%
-)
+c:\local\jq-win64  ".VERSION.PATCH"  %VERSIONFILE% >tmpfile
+set /P patch=<tmpfile
 
-type totaltime.version
-set /p VERSION= "Enter version: "
-
+c:\local\jq-win64  ".VERSION.BUILD"  %VERSIONFILE% >tmpfile
+set /P build=<tmpfile
+del tmpfile
+set VERSION=%major%.%minor%.%patch%
+if "%build%" NEQ "0"  set VERSION=%VERSION%.%build%
 
 
-set d=%HOMEDIR\install
-if exist %d% goto one
-mkdir %d%
-:one
-set d=%HOMEDIR%\install\Gamedata
-if exist %d% goto two
-mkdir %d%
-:two
-set d=%HOMEDIR%\install\Gamedata\TotalTime
+
+
+set d=Gamedata\TotalTime
 if exist %d% goto three
 mkdir %d%
 :three
-set d=%HOMEDIR%\install\Gamedata\TotalTime\Plugins
+set d=Gamedata\TotalTime\Plugins
 if exist %d% goto four
 mkdir %d%
 :four
-set d=%HOMEDIR%\install\Gamedata\TotalTime\Textures
+set d=Gamedata\TotalTime\Textures
 if exist %d% goto five
 mkdir %d%
 :five
-set d=%HOMEDIR%\install\Gamedata\TotalTime\PluginData
+set d=Gamedata\TotalTime\PluginData
 if exist %d% goto six
 mkdir %d%
 :six
 
-rem del %HOMEDIR%\install\Gamedata\TotalTime\Textures\*.*
+rem del Gamedata\TotalTime\Textures\*.*
 
 
-xcopy src\Textures\*.png   %HOMEDIR%\install\GameData\TotalTime\Textures /Y
-copy bin\Release\TotalTime.dll %HOMEDIR%\install\Gamedata\TotalTime\Plugins
-copy  /Y totaltime.version %HOMEDIR%\install\Gamedata\TotalTime
-copy /Y ..\MiniAVC.dll %HOMEDIR%\install\Gamedata\TotalTime
-copy README.md %HOMEDIR%\install\Gamedata\TotalTime
-copy ChangeLog.txt %HOMEDIR%\install\Gamedata\TotalTime
+xcopy src\Textures\*.png   GameData\TotalTime\Textures /Y
+copy bin\Release\TotalTime.dll Gamedata\TotalTime\Plugins
+copy  /Y totaltime.version Gamedata\TotalTime
+copy /Y ..\MiniAVC.dll Gamedata\TotalTime
+copy README.md Gamedata\TotalTime
+copy ChangeLog.txt Gamedata\TotalTime
 pause
-
-%HOMEDRIVE%
-cd %HOMEDIR%\install
 
 set FILE="%RELEASEDIR%\TotalTime-%VERSION%.zip"
 IF EXIST %FILE% del /F %FILE%

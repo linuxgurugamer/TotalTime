@@ -1,0 +1,30 @@
+﻿{
+	"NAME":"TotalTime",
+	"URL":"http://ksp-avc.cybutek.net/version.php?id=221",
+	"DOWNLOAD":"http://spacedock.info/mod/54/TotalTime/download",
+	"VERSION":
+	{
+		"MAJOR":0,
+		"MINOR":6,
+		"PATCH":6,
+		"BUILD":0
+	},
+	"KSP_VERSION":
+	{
+		"MAJOR":1,
+		"MINOR":3,
+		"PATCH":0
+	},
+	"KSP_VERSION_MIN":
+	{
+		"MAJOR":1,
+		"MINOR":3,
+		"PATCH":0
+	},
+	"KSP_VERSION_MAX":
+	{
+		"MAJOR":1,
+		"MINOR":3,
+		"PATCH":99
+	}
+}

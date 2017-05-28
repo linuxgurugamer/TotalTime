@@ -32,3 +32,6 @@
 
 0.6.5
 		Added prebuild code to get correct file version in to the assembly
+
+0.6.*
+	Replaced depreciated call to GameEvents.onLevelWasLoaded with Unity SceneManagment calls
