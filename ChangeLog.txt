@@ -44,3 +44,6 @@
 	Updated for KSP 1.4.1
 	Added support for ClickthroughBlocker
 	Added support for ToolbarController
+
+0.6.8.1
+	Updated version file
