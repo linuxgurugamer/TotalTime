@@ -1,12 +1,12 @@
 ﻿{
 	"NAME":"TotalTime",
-	"URL":"http://ksp-avc.cybutek.net/version.php?id=221",
+	"URL":"https://raw.githubusercontent.com/linuxgurugamer/TotalTime/master/totaltime.version",
 	"DOWNLOAD":"http://spacedock.info/mod/54/TotalTime/download",
 	"VERSION":
 	{
 		"MAJOR":0,
 		"MINOR":6,
-		"PATCH":7,
+		"PATCH":8,
 		"BUILD":0
 	},
 	"KSP_VERSION":

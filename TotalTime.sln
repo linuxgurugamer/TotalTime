@@ -1,16 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalTime", "TotalTime.csproj", "{9856F834-7E93-48F4-92C5-B7D2862468AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalTime", "TotalTime\TotalTime.csproj", "{9856F834-7E93-48F4-92C5-B7D2862468AD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{F1958211-D3D4-42B6-A4D8-E7F96827BF48}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F1958211-D3D4-42B6-A4D8-E7F96827BF48}"
 	ProjectSection(SolutionItems) = preProject
 		buildRelease.bat = buildRelease.bat
 		ChangeLog.txt = ChangeLog.txt
 		deploy.bat = deploy.bat
-		LICENSE = LICENSE
+		jenkins.txt = jenkins.txt
+		License.txt = License.txt
 		README.md = README.md
 		totaltime.version = totaltime.version
 	EndProjectSection
@@ -28,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D8744213-BD9B-4FD1-856C-926DCBAB3C22}
 	EndGlobalSection
 EndGlobal
