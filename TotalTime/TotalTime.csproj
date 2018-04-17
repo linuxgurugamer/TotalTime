@@ -34,7 +34,7 @@
       <DependentUpon>AssemblyVersion.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Toolbar Registration.cs" />
+    <Compile Include="ToolbarRegistration.cs" />
     <Compile Include="TotalTime.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="configuration.cs" />
