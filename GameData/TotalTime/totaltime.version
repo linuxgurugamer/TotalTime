@@ -1,30 +1,27 @@
 ﻿{
 	"NAME":"TotalTime",
-	"URL":"https://raw.githubusercontent.com/linuxgurugamer/TotalTime/master/totaltime.version",
-	"DOWNLOAD":"http://spacedock.info/mod/54/TotalTime/download",
+	"URL":"https://raw.githubusercontent.com/linuxgurugamer/TotalTime/master/TotalTime.version",
+	"DOWNLOAD":"https://github.com/linuxgurugamer/TotalTime/releases",
 	"VERSION":
 	{
 		"MAJOR":0,
 		"MINOR":6,
 		"PATCH":8,
-		"BUILD":0
+		"BUILD":1
 	},
-	"KSP_VERSION":
-	{
-		"MAJOR":1,
-		"MINOR":3,
-		"PATCH":1
-	},
-	"KSP_VERSION_MIN":
-	{
-		"MAJOR":1,
-		"MINOR":3,
-		"PATCH":1
-	},
-	"KSP_VERSION_MAX":
-	{
-		"MAJOR":1,
-		"MINOR":3,
-		"PATCH":1
-	}
+  "KSP_VERSION": {
+    "MAJOR": 1,
+    "MINOR": 4,
+    "PATCH": 1
+  },
+  "KSP_VERSION_MIN": {
+    "MAJOR": 1,
+    "MINOR": 4,
+    "PATCH": 1
+  },
+  "KSP_VERSION_MAX": {
+    "MAJOR": 1,
+    "MINOR": 4,
+    "PATCH": 99
+  }
 }
