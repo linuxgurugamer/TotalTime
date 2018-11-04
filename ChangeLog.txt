@@ -45,5 +45,8 @@
 	Added support for ClickthroughBlocker
 	Added support for ToolbarController
 
-0.6.8.1
+0.6.8.1, 0.6.8.2, 0.6.8.3
 	Updated version file
+
+0.6.8.4
+	Version bump for 1.5 rebuild
