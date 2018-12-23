@@ -1,0 +1,27 @@
+﻿{
+	"NAME":"TotalTime",
+	"URL":"http://ksp.spacetux.net/avc/TotalTime",
+	"DOWNLOAD":"https://github.com/linuxgurugamer/TotalTime/releases",
+	"VERSION":
+	{
+		"MAJOR":0,
+		"MINOR":6,
+		"PATCH":8,
+		"BUILD":4
+	},
+  "KSP_VERSION": {
+    "MAJOR": 1,
+    "MINOR": 5,
+    "PATCH": 1
+  },
+  "KSP_VERSION_MIN": {
+    "MAJOR": 1,
+    "MINOR": 5,
+    "PATCH": 1
+  },
+  "KSP_VERSION_MAX": {
+    "MAJOR": 1,
+    "MINOR": 5,
+    "PATCH": 99
+  }
+}
