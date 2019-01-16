@@ -50,3 +50,8 @@
 
 0.6.8.4
 	Version bump for 1.5 rebuild
+
+0.6.8.6
+	Added code to create the PluginData directory if it doesn't exist
+	Moved the Textures directory into the PluginData directory
+	Fixed Nullref which prevented the Coroutine from starting, which kept the mod from keeping count of the time

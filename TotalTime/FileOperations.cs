@@ -14,11 +14,12 @@ namespace TotalTime
 		public static readonly String ROOT_PATH = KSPUtil.ApplicationRootPath;
 		private static readonly String CONFIG_BASE_FOLDER = ROOT_PATH + "GameData/";
 		public static String TT_BASE_FOLDER = CONFIG_BASE_FOLDER + "TotalTime/";
-		public static string TEXTURE_DIR = "TotalTime/" + "Textures/";
+		public static string TEXTURE_DIR = "TotalTime/" + "PluginData/Textures/";
 		private  string SAVE_PATH = ROOT_PATH + "saves/" + HighLogic.SaveFolder;
 		public static string TT_DATAFILE = "totaltime.dat";
 		public static String TT_NODENAME = "TotalTime";
-        public static String TT_CFG_FILE = FileOperations.TT_BASE_FOLDER + "PluginData/TotalTime.cfg";
+        public static string TT_DATADIR = FileOperations.TT_BASE_FOLDER + "PluginData/";
+        public static String TT_CFG_FILE = TT_DATADIR + "TotalTime.cfg";
         public static String TT_OLD_CFG_FILE = FileOperations.TT_BASE_FOLDER + "TotalTime.cfg";
 
         public static bool dataRead = false;

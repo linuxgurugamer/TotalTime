@@ -129,8 +129,7 @@ namespace TotalTime
 			GameEvents.onGUIAstronautComplexSpawn.Add(CallbackAdminFacility);
 			GameEvents.onGUIAstronautComplexDespawn.Add(CallbackAdminFacility);
 
-            gui.OnGUIShowApplicationLauncher();
-
+            //gui.OnGUIShowApplicationLauncher();
             StartCoroutine (TimeIncrement ());
 		}
 

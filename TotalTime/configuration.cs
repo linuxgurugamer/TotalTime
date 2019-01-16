@@ -1,5 +1,6 @@
 ﻿//using UnityEngine;
 using System;
+using System.IO;
 
 //using System.Collections.Generic;
 //using System.Linq;
@@ -99,6 +100,10 @@ namespace TotalTime
 			top.SetValue ("displayOnScreen", displayOnScreen.ToString (), true);
 			top.SetValue ("displayInWindow", displayInWindow.ToString (), true);
 
+            if (!Directory.Exists(FileOperations.TT_DATADIR))
+            {
+                Directory.CreateDirectory(FileOperations.TT_DATADIR);
+            }
 			root.Save (FileOperations.TT_CFG_FILE);
 			TotalTime.setConfig (root);
 		}
