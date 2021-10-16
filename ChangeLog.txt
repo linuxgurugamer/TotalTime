@@ -62,3 +62,7 @@
 	Added InstallChecker
 	Updated AssemblyVersion
 	Updated for KSP 1.8
+
+0.6.9.1
+	Added AssemblyFileVersion
+	Updated version file for 1.12

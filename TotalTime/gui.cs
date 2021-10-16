@@ -55,32 +55,6 @@ namespace TotalTime
         internal const string MODNAME = "Total Time";
         public void UpdateToolbarStock()
         {
-#if false
-            if (!GameDatabase.Instance.IsReady())
-                return;
-            // Create the button in the KSP AppLauncher
-
-            if (!TT_Texture_Load)
-            {
-
-                if (GameDatabase.Instance.ExistsTexture(FileOperations.TEXTURE_DIR + "TotalTime-38"))
-                {
-                    TT_button_img = GameDatabase.Instance.GetTexture(FileOperations.TEXTURE_DIR + "TotalTime-38", false);
-                }
-
-                TT_Texture_Load = true;
-            }
-            if (TT_Button == null)
-            {
-                TT_Button = ApplicationLauncher.Instance.AddModApplication(GUIToggleToolbar, GUIToggleToolbar,
-                        null, null,
-                        null, null,
-                        ApplicationLauncher.AppScenes.SPACECENTER,
-                        TT_button_img);
-                    //stockToolBarcreated = true;
-               
-            }
-#endif
             toolbarControl = gameObject.AddComponent<ToolbarControl>();
             toolbarControl.AddToAllToolbars(GUIToggleToolbar, GUIToggleToolbar,
                 ApplicationLauncher.AppScenes.SPACECENTER ,
@@ -126,25 +100,6 @@ namespace TotalTime
                     //UpdateToolbarStock ();
                 }
             }
-#if false
-			if (!Input.GetMouseButtonUp (1)) {
-				//onLeftButtonClick();
-				infoDisplayActive = !infoDisplayActive;
-				if (infoDisplayActive) {
-					SetInfoDisplayVisible (true);
-				} else {
-					SetInfoDisplayVisible (false);
-
-					//UpdateToolbarStock ();
-				}
-			}
-#else
-            //			if (!configVisible)
-            //			{
-            //				SetInfoDisplayVisible(TotalTime.config.displayInWindow);
-            //				Log.Info("displayInWindow: " + TotalTime.config.displayInWindow.ToString() );
-            //			}
-#endif
         }
 
         public void GUIToggleConfig()

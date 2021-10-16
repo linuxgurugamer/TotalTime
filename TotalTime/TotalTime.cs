@@ -299,8 +299,9 @@ namespace TotalTime
 					
 				if (config.displayOnScreen && !F2) {
 					// Only need to get the size of the largest title
-					Vector2 size, 
-					sizeTitle = timeLabelStyle.CalcSize (new GUIContent (inGameTitle));
+					Vector2 size;
+					Vector2 sizeTitle = timeLabelStyle.CalcSize (new GUIContent (inGameTitle));
+
 					if (config.displayGameTime && config.logGameTime) {
 						gametimePos.Set (gametimeX, gametimeY, 200, sizeTitle.y);
 						DrawOutline (gametimePos, inGameTitle, 1, timeLabelStyle, Color.black, Color.white);
@@ -310,6 +311,7 @@ namespace TotalTime
 						DrawOutline (gametimePos, strSecInGameTime, 1, timeLabelStyle, Color.black, Color.white);
 						gametimePos.Set (gametimePos.xMin, gametimePos.yMin + size.y, 200, size.y);
 					}
+
 					if (config.displayInstallTime && config.logInstallTime) {
 						gametimePos.Set (gametimeX, gametimeY + timeSize + timeSize / 2, 200, sizeTitle.y);
 						DrawOutline (gametimePos, inInstallTitle, 1, timeLabelStyle, Color.black, Color.white);
@@ -319,6 +321,7 @@ namespace TotalTime
 						DrawOutline (gametimePos, strSecInInstallTime, 1, timeLabelStyle, Color.black, Color.white);
 						gametimePos.Set (gametimePos.xMin, gametimePos.yMin + size.y, 200, size.y);
 					}
+
 					if (config.displayGlobalTime && config.logGlobalTime) {
 						gametimePos.Set (gametimeX, gametimeY + timeSize * 3, 200, sizeTitle.y);
 						DrawOutline (gametimePos, totalTitle, 1, timeLabelStyle, Color.black, Color.white);
